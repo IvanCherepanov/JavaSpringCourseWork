@@ -24,7 +24,7 @@ public class Item {
     @Column(name = "item_type_name")
     private String itemName;
 
-    @Column(name = "item_type_name")
+    @Column(name = "description")
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY)
