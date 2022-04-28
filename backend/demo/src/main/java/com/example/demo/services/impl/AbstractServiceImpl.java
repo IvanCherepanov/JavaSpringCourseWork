@@ -11,6 +11,7 @@ import java.util.List;
 public  abstract class AbstractServiceImpl<T, D extends IAbstractRepository<T>> implements IAbstractService<T> {
     private D defaultDao;
 
+
     protected AbstractServiceImpl(D defaultDao) {
         this.defaultDao = defaultDao;
     }
