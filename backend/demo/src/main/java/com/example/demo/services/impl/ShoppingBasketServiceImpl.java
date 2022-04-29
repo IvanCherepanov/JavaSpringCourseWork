@@ -14,4 +14,11 @@ public class ShoppingBasketServiceImpl extends AbstractServiceImpl<ShoppingBaske
     protected ShoppingBasketServiceImpl(IShoppingBasketRepository defaultDao) {
         super(defaultDao);
     }
+
+    @Override
+    public ShoppingBasket update(Long id, ShoppingBasket entity) {
+        findById(id);
+        entity.setId(id);
+        return create(entity);
+    }
 }

@@ -15,5 +15,10 @@ public class ItemServiceImpl extends AbstractServiceImpl<Item, IItemRepository> 
         super(defaultDao);
     }
 
-
+    @Override
+    public Item update(Long id, Item entity) {
+        findById(id);
+        entity.setId(id);
+        return create(entity);
+    }
 }

@@ -15,4 +15,11 @@ public class PetServiceImpl extends AbstractServiceImpl<Pet, IPetRepository> imp
     protected PetServiceImpl(IPetRepository defaultDao) {
         super(defaultDao);
     }
+
+    @Override
+    public Pet update(Long id, Pet entity) {
+        findById(id);
+        entity.setId(id);
+        return create(entity);
+    }
 }

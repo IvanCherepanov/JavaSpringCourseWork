@@ -1,6 +1,7 @@
 package com.example.demo.services.impl;
 
 import com.example.demo.model.dao.IAbstractRepository;
+import com.example.demo.model.entity.BaseEntity;
 import com.example.demo.services.IAbstractService;
 
 import java.util.List;
@@ -36,7 +37,7 @@ public  abstract class AbstractServiceImpl<T, D extends IAbstractRepository<T>> 
     @Override
     public T update(Long id, T entity) {
         findById(id);
-        return create(entity);
+        return  create(entity);
     }
 
     @Override

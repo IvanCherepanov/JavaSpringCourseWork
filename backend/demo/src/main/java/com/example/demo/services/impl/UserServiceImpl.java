@@ -14,4 +14,11 @@ public class UserServiceImpl extends AbstractServiceImpl<User, IUserRepository> 
     protected UserServiceImpl(IUserRepository defaultDao) {
         super(defaultDao);
     }
+
+    @Override
+    public User update(Long id, User entity) {
+        findById(id);
+        entity.setId(id);
+        return create(entity);
+    }
 }
