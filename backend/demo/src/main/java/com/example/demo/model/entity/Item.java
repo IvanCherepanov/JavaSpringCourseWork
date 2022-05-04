@@ -8,7 +8,7 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "item_type")
+@Table(name = "item")
 @Setter
 @Getter
 @NoArgsConstructor
@@ -21,7 +21,7 @@ public class Item {
     @Column(name = "cost")
     private int cost;
 
-    @Column(name = "item_type_name")
+    @Column(name = "item_name")
     private String itemName;
 
     @Column(name = "description")

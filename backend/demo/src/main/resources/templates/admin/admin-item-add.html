@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <title>WebJars Demo</title>
+    <meta charset="utf-8">
+    <!--<link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css" />-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+            integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+            integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+            crossorigin="anonymous"></script>
+</head>
+<body>
+<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/admin/pets">Pets</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/pet/list">Питомцы</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/item_type/list">Категории</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/item/list">Товары</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/user/list">Пользователи</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/">Вернуться на сайт</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
+            <h1 class="text-center"> Создать новый товар </h1>
+            <div class="card-body">
+                <form th:action="@{/item/create}" th:object="${item}" method="POST">
+                    <div class="form-group">
+                        <label> Название </label>
+                        <input
+                                type="text"
+                                name="itemName"
+                                th:field="*{itemName}"
+                                class="form-control"
+                                placeholder="введите название"
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label> Цена </label>
+                        <input
+                                type="number"
+                                name="cost"
+                                th:field="*{cost}"
+                                class="form-control"
+                                placeholder="200"
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label> Описание </label>
+                        <input
+                                type="text"
+                                name="description"
+                                th:field="*{description}"
+                                class="form-control"
+                                placeholder="введите описание"
+                        />
+                    </div>
+
+                    <div class="form-group">
+                        <label> Питомец </label>
+                        <select
+                                class="form-control"
+                                th:field="*{petTypeId}"
+                                id="dropOperator">
+                            <option value="0">select operator</option>
+                            <option
+                                    th:each="pet : ${pets}"
+                                    th:value="${pet.id}"
+                                    th:text="${pet.petName}"
+                            ></option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label> Категория </label>
+                        <select
+                                class="form-control"
+                                th:field="*{itemTypeId}"
+                                id="dropOperator2">
+                            <option value="0">select operator</option>
+                            <option
+                                    th:each="type : ${types}"
+                                    th:value="${type.id}"
+                                    th:text="${type.itemTypeName}"
+                            ></option>
+                        </select>
+                    </div>
+
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-primary">
+                            Submit
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<footer class="bg-dark fixed-bottom text-center text-white">
+    </div>
+    <!-- Copyright -->
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+        © 2022 Copyright:
+        <a class="text-white" href="https://github.com/IvanCherepanov/JavaSpringCourseWork">Черепанов Иван Владимирович
+            ИКБО-01-20, 2022</a>
+    </div>
+    <!-- Copyright -->
+</footer>
+</html>

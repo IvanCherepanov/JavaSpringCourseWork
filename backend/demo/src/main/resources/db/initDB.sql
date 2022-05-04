@@ -1,13 +1,4 @@
---DROP TABLE IF EXISTS item;
-CREATE TABLE IF NOT EXISTS item
-(
-    id    SERIAL NOT NULL PRIMARY KEY ,
-    cost INTEGER ,
-    item_name  VARCHAR(256) NOT NULL,
-    description VARCHAR(256) NOT NULL,
-    item_type_id INTEGER,
-    pet_type_id INTEGER
-    );
+
 --DROP TABLE IF EXISTS pet_type;
 CREATE TABLE IF NOT EXISTS pet_type
 (
@@ -19,6 +10,18 @@ CREATE TABLE IF NOT EXISTS item_type
 (
     id    SERIAL NOT NULL PRIMARY KEY ,
     item_type_name  VARCHAR(256) NOT NULL
+    );
+--DROP TABLE IF EXISTS item;
+CREATE TABLE IF NOT EXISTS item
+(
+    id    SERIAL NOT NULL PRIMARY KEY ,
+    cost INTEGER ,
+    item_name  VARCHAR(256) NOT NULL,
+    description VARCHAR(256) NOT NULL,
+    item_type_id INTEGER,
+    pet_type_id INTEGER,
+    FOREIGN KEY (item_type_id) REFERENCES item_type (id) ON DELETE CASCADE,
+    FOREIGN KEY (pet_type_id) REFERENCES pet_type (id) ON DELETE CASCADE
     );
 --DROP TABLE IF EXISTS users;
 CREATE TABLE IF NOT EXISTS users

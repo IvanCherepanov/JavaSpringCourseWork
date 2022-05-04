@@ -1,8 +1,8 @@
 package com.example.demo.services.impl;
 
 import com.example.demo.model.dao.IAbstractRepository;
-import com.example.demo.model.entity.BaseEntity;
 import com.example.demo.services.IAbstractService;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 
@@ -28,7 +28,7 @@ public  abstract class AbstractServiceImpl<T, D extends IAbstractRepository<T>> 
      * */
     @Override
     public T findById(Long id) {
-        return (T) defaultDao.findById(id);
+        return (T) defaultDao.getById(id);
     }
 
     /**
@@ -49,6 +49,8 @@ public  abstract class AbstractServiceImpl<T, D extends IAbstractRepository<T>> 
 
     @Override
     public List<T> getAll() {
-        return defaultDao.findAll();
+        Sort sort = Sort.by("id").ascending();//не очень красиво и правильно, но
+        return defaultDao.findAll(sort);
     }
+
 }

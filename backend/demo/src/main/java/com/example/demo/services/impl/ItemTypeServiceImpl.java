@@ -1,6 +1,7 @@
 package com.example.demo.services.impl;
 
 import com.example.demo.model.dao.IItemTypeRepository;
+import com.example.demo.model.entity.Item;
 import com.example.demo.model.entity.ItemType;
 import com.example.demo.services.IItemTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,4 +22,6 @@ public class ItemTypeServiceImpl extends AbstractServiceImpl<ItemType, IItemType
         entity.setId(id);
         return create(entity);
     }
+
+
 }
