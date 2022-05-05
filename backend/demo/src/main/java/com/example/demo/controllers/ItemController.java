@@ -82,6 +82,9 @@ public class ItemController extends AbstractController<Item, IItemService> {
         // get pet from database by id
         Item existingItem = service.findById(id);
         existingItem.setId(id);
+        existingItem.setCost(item.getCost());
+        existingItem.setDescription(item.getDescription());
+        existingItem.setImagePath(item.getImagePath());
         existingItem.setItemName(item.getItemName());
 
         // save updated pet object

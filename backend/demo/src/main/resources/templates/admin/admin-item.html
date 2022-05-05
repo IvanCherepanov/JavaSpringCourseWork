@@ -54,6 +54,7 @@
             <th> Описание </th>
             <th> Тип </th>
             <th> Категория </th>
+            <th> Изображение </th>
             <th> Действия </th>
         </tr>
         </thead>
@@ -66,6 +67,11 @@
             <td th:text = "${item.description}"></td>
             <td th:text = "${item.itemType.itemTypeName}"></td>
             <td th:text = "${item.pet.petName}"></td>
+            <td>
+            <img th:src="@{${item.imagePath}}" alt="Circle Image"
+                 class="img-circle img-no-padding img-responsive"
+                 style="width:300px;height:200px">
+            </td>
             --<td>
             <a th:href = "@{/item/edit/{id} (id=${item.id})}"
                class = "btn btn-primary">Обновить</a>

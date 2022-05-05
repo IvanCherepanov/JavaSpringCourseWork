@@ -42,4 +42,7 @@ public class Item {
 
     @Column(name="pet_type_id")
     private Long petTypeId;
+
+    @Column(name = "image_item")
+    private String imagePath;
 }

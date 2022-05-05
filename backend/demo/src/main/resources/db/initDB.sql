@@ -20,6 +20,7 @@ CREATE TABLE IF NOT EXISTS item
     description VARCHAR(256) NOT NULL,
     item_type_id INTEGER,
     pet_type_id INTEGER,
+    image_item VARCHAR(256),
     FOREIGN KEY (item_type_id) REFERENCES item_type (id) ON DELETE CASCADE,
     FOREIGN KEY (pet_type_id) REFERENCES pet_type (id) ON DELETE CASCADE
     );
