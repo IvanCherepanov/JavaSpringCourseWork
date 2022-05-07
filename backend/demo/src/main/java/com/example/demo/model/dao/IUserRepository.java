@@ -5,4 +5,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IUserRepository extends IAbstractRepository<User>{
+    User findUserByUsername(String name);
 }

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+
+</head>
+<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">PetStore</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/">Главная</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown1" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Товары
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown1">
+                        <li th:each="pet : ${pets}">
+                            <a class="dropdown-item" th:href="@{/products(pId=${pet.id}, pTId=0, pTDId=0)}" th:text="${pet.petName}">Text</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/purchases">Корзина</a>
+                </li>
+
+                <li class="nav-item" th:if="${userRole} == 'GUEST'">
+                    <a class="nav-link" href="/login">Войти</a>
+                </li>
+
+                <li class="nav-item" th:if="${userRole} == 'GUEST'">
+                    <a class="nav-link" href="/sign">Зарегистрироваться</a>
+                </li>
+
+                <li class="nav-item" th:if="${userRole} == 'ADMIN' or ${userRole} == 'USER'">
+                    <a class="nav-link" href="/logout">Выйти</a>
+                </li>
+
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Другое
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a th:if="${userRole} == 'ADMIN'" class="dropdown-item" href="/admin">Админ панель</a>
+                        <a class="dropdown-item" href="/about">О проекте</a>
+                    </div>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Dropdown link
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a th:if="${userRole} == 'ADMIN'" class="dropdown-item" href="/admin">Админ панель</a>
+                        <a class="dropdown-item" href="/home">О проекте</a>
+                    </div>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Dropdown link
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <ul th:each="pet : ${pets}">
+                            <a class="dropdown-item" th:href="@{/user/products(pId=${pet.id}, pTId=0)}" th:text="${pet.petName}">Text</a>
+                        </ul>
+                    </div>
+                </li>
+
+            </ul>
+
+            <form class="d-flex" th:method="GET" th:action="@{/search}" >
+                <input class="form-control me-2" float="right" type="search" placeholder="Поиск" aria-label="Поиск" name="name">
+                <button class="btn btn-outline-success" type="submit">Поиск</button>
+            </form>
+        </div>
+    </div>
+</nav>
+<body>
+
+
+
+
+
+<div class="row">
+<div class="col-lg-2 col-md-2">
+    <div class="sticky-top">
+    <h1 class = "text-center"> Фильтрация </h1>
+        <div class="product-page-content">
+            <div class="products-menu">
+                <nav class="nav flex-column product-types" th:each="productType : ${types}">
+                    <a th:href="@{/user/products(pId=${pId}, pTId=${productType.id})}"
+                       th:text="${productType.itemTypeName}">TEXT</a>
+                </nav>
+            </div>
+        </div>
+    <div class = "card-body">
+        <form th:action="@{/user/product}" method="GET" ><!--th:action="@{/user/product(pId=${pet.id}, pTId=${productType.getId()}" th:object = "${item}" method="POST"-->
+            <div class="form-group">
+                <label> Питомец </label>
+                <select
+                        class="form-control" id="dropOperator">
+                <!--th:field="*{petTypeId}"-->
+                    <option value="0">select operator</option>
+                    <option
+                            th:each="pet : ${pets}"
+                            th:value="${pet.id}"
+                            th:text="${pet.petName}"
+                    ></option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label> Категория </label>
+                <select
+                        class="form-control"
+
+                        id="dropOperator2"><!--th:field="*{itemTypeId}"-->
+                    <option value="0">select operator</option>
+                    <option
+                            th:each="type : ${types}"
+                            th:value="${type.id}"
+                            th:text="${type.itemTypeName}"
+                    ></option>
+                </select>
+            </div>
+
+            <div class = "box-footer">
+                <button type="submit" class = "btn btn-primary">
+                    Submit
+                </button>
+            </div>
+        </form>
+
+    </div>
+    </div>
+</div>
+
+<div class="col-lg-10 col-md-10">
+    <div class="row">
+        <div class="col-xl-3"
+             th:each="item : ${items}">
+            <div class="card" style="width: 18rem;" >
+                <img th:src="@{${item.imagePath}}"
+                     class="card-img-top"
+                     alt="product-img"
+                     style="width:150px;height:100px">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${item.itemName}"></h5>
+                    <p class="card-text" th:text="${item.description}"></p>
+                    <p class="card-text" th:text="${item.cost}"></p>
+
+                    <div class="row-cols-4">
+                    <a th:href = "@{/item/edit/{id} (id=${item.id})}"
+                       class = "btn btn-primary">Купить</a>
+                    <label> </label> <!--th:field = "*{amount}"-->
+                    <input
+                            type = "number"
+                            name = "amount"
+
+                            class = "form-control"
+                            placeholder="Enter amount"
+                    />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<button id="loadmore">Загрузить еще...</button>
+</body>
+<footer class="bg-dark fixed-bottom text-center text-white">
+    </div>
+    <!-- Copyright -->
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+        © 2022 Copyright:
+        <a class="text-white" href="https://github.com/IvanCherepanov/JavaSpringCourseWork">Черепанов Иван Владимирович ИКБО-01-20, 2022</a>
+    </div>
+    <!-- Copyright -->
+</footer>
+</html>

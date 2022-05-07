@@ -49,4 +49,14 @@ public class ItemServiceImpl extends AbstractServiceImpl<Item, IItemRepository> 
         return iItemRepository.findAll(sort);
     }
 
+    @Override
+    public List<Item> getItemByPetIdAndTypeId(Long pId, Long Iid) {
+        return iItemRepository.findItemByPetTypeIdAndItemTypeId(pId, Iid);
+    }
+
+    @Override
+    public List<Item> getItemByPetId(Long pId) {
+        return iItemRepository.findItemByPetTypeId(pId);
+    }
+
 }

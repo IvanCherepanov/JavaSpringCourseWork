@@ -10,4 +10,6 @@ public class BasicController {
     public String getHome() {
         return "index";
     }
+
+
 }

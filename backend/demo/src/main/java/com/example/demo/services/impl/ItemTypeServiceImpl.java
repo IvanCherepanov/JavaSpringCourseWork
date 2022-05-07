@@ -21,6 +21,7 @@ public class ItemTypeServiceImpl extends AbstractServiceImpl<ItemType, IItemType
         findById(id);
         entity.setId(id);
         return create(entity);
+
     }
 
 

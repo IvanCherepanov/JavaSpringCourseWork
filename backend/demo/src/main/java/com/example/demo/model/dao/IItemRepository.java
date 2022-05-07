@@ -9,5 +9,6 @@ import java.util.List;
 public interface IItemRepository extends IAbstractRepository<Item>{
     List<Item> findItemByItemName(String itemName);
     List<Item> findItemByItemTypeId(Long itemType);
-
+    List<Item> findItemByPetTypeIdAndItemTypeId(Long PetTypeId, Long ItemTypeId);
+    List<Item> findItemByPetTypeId(Long PetTypeId);
 }

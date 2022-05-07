@@ -1,16 +1,17 @@
-
 --DROP TABLE IF EXISTS pet_type;
 CREATE TABLE IF NOT EXISTS pet_type
 (
     id    SERIAL NOT NULL PRIMARY KEY ,
     pet_type_name  VARCHAR(256) NOT NULL
     );
+
 --DROP TABLE IF EXISTS item_type;
 CREATE TABLE IF NOT EXISTS item_type
 (
     id    SERIAL NOT NULL PRIMARY KEY ,
     item_type_name  VARCHAR(256) NOT NULL
     );
+
 --DROP TABLE IF EXISTS item;
 CREATE TABLE IF NOT EXISTS item
 (
@@ -24,6 +25,7 @@ CREATE TABLE IF NOT EXISTS item
     FOREIGN KEY (item_type_id) REFERENCES item_type (id) ON DELETE CASCADE,
     FOREIGN KEY (pet_type_id) REFERENCES pet_type (id) ON DELETE CASCADE
     );
+
 --DROP TABLE IF EXISTS users;
 CREATE TABLE IF NOT EXISTS users
 (
@@ -33,6 +35,7 @@ CREATE TABLE IF NOT EXISTS users
     email VARCHAR(256) NOT NULL,
     role VARCHAR(256) NOT NULL
     );
+
 --DROP TABLE IF EXISTS shopping_basket;
 CREATE TABLE IF NOT EXISTS shopping_basket
 (
