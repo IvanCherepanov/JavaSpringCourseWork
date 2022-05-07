@@ -7,7 +7,7 @@ import java.util.List;
 public interface IItemService extends IAbstractService<Item> {
     List<Item> getItemByName(String name);
     List<Item> getItemByItemType(Long itemType);
-    List<Item> getAllSorting(int flag);
+    List<Item> getAllSorting(Integer flag,List<Item> temp);
     List<Item> getItemByPetIdAndTypeId(Long pId, Long Iid);
     List<Item> getItemByPetId(Long pId);
 }

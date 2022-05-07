@@ -37,10 +37,10 @@ public class ItemController extends AbstractController<Item, IItemService> {
         return service.getItemByItemType(itemName);
     }
 
-    @GetMapping(value = "/sort/{sort_id}")
+    /**@GetMapping(value = "/sort/{sort_id}")
     public List<Item> getItemsSort(@PathVariable(name = "sort_id") int itemName) {
         return service.getAllSorting(itemName);
-    }
+    }*/
 
     @GetMapping("/list")
     public String readingAll(Model model) {

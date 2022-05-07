@@ -112,6 +112,15 @@
                 </nav>
             </div>
         </div>
+        <h1 class = "text-center"> Сортировка </h1>
+        <div class="product-page-content">
+            <div class="products-menu">
+                <nav class="nav flex-column product-types" th:each="condType : ${T(com.example.demo.model.enumerations.Condition).values()}">
+                    <a th:href="@{/user/products(pId=${pId}, pTId=${pTId}, sId=${condType.ordinal()})}"
+                       th:text="${condType.getValue()}">TEXT</a>
+                </nav>
+            </div>
+        </div>
     <div class = "card-body">
         <form th:action="@{/user/product}" method="GET" ><!--th:action="@{/user/product(pId=${pet.id}, pTId=${productType.getId()}" th:object = "${item}" method="POST"-->
             <div class="form-group">

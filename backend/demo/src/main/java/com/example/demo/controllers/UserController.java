@@ -50,6 +50,7 @@ public class UserController extends AbstractController<User, IUserService> {
     public String products(Authentication authentication,
                            @RequestParam(name = "pId", required = false) Long IpetId,
                            @RequestParam(name = "pTId", required = false) Long IproductTypeId,
+                           @RequestParam(name = "sId", required = false) Integer sortId,
                            Model model) {
         model.addAttribute("userRole", getUserRole(authentication));
         System.out.println(getUserRole(authentication));
@@ -65,18 +66,18 @@ public class UserController extends AbstractController<User, IUserService> {
         model.addAttribute("types", iItemTypeService.getAll());
 
         if (petId == 0 && productTypeId == 0) {
-            model.addAttribute("items", iItemService.getAll());
+            model.addAttribute("items", iItemService.getAllSorting(sortId, iItemService.getAll()));
             System.out.println("1");
         }
         else if (petId == 0 && productTypeId != 0) {
-            model.addAttribute("items", iItemService.getItemByItemType(productTypeId));
+            model.addAttribute("items",iItemService.getAllSorting(sortId, iItemService.getItemByItemType(productTypeId)));
             System.out.println("2");
         }
         else if (petId != 0 && productTypeId == 0) {
-            model.addAttribute("items", iItemService.getItemByPetId(petId));
+            model.addAttribute("items", iItemService.getAllSorting(sortId,iItemService.getItemByPetId(petId)));
             System.out.println("3");
         } else {
-            model.addAttribute("items", iItemService.getItemByPetIdAndTypeId(petId, productTypeId));
+            model.addAttribute("items", iItemService.getAllSorting(sortId,iItemService.getItemByPetIdAndTypeId(petId, productTypeId)));
             System.out.println("4");
         }
         model.addAttribute("sortItemsByName", Comparator.comparing(Item::getItemName));
