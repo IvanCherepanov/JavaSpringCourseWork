@@ -121,6 +121,7 @@
                 </nav>
             </div>
         </div>
+
     <div class = "card-body">
         <form th:action="@{/user/product}" method="GET" ><!--th:action="@{/user/product(pId=${pet.id}, pTId=${productType.getId()}" th:object = "${item}" method="POST"-->
             <div class="form-group">
@@ -178,16 +179,24 @@
                     <p class="card-text" th:text="${item.cost}"></p>
 
                     <div class="row-cols-4">
-                    <a th:href = "@{/item/edit/{id} (id=${item.id})}"
-                       class = "btn btn-primary">Купить</a>
-                    <label> </label> <!--th:field = "*{amount}"-->
-                    <input
-                            type = "number"
-                            name = "amount"
+                        <form th:method="POST" th:action="@{/shopping_basket/addPurchase}"
+                              style="display: flex; margin-top: 20px;">
+                            <input type="hidden" th:name="id" th:value="${item.id}">
+                            <div>
 
-                            class = "form-control"
-                            placeholder="Enter amount"
-                    />
+                                <input
+                                        name="count"
+                                        class="count"
+                                        type="number"
+                                        size="2"
+                                        value="1"
+                                        id="count"
+                                        min="1"
+                                        max="10" >
+
+                            </div>
+                            <button type="submit" class="btn btn-primary mb-3" style="margin-left: 10px; height: 47px;">Добавить в корзину</button>
+                        </form>
                     </div>
                 </div>
             </div>
