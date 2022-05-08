@@ -93,7 +93,7 @@
   <h3 th:text="'Здравствуйте, ' + ${userName}">TEXT</h3>
   <h3 th:if="${purchases.isEmpty() == true}" >Корзина пуста</h3>
   <h3 th:if="${purchases.isEmpty() == false}">Корзина</h3>
-  <form th:if="${purchases.isEmpty() == false}" th:method="POST" th:action="@{/changePurchases}">
+  <div th:if="${purchases.isEmpty() == false}" th:method="POST" th:action="@{/changePurchases}">
     <input id="purchaseIdForDelete" type="hidden" Name="purchaseId">
     <table class="table">
       <thead>
@@ -103,6 +103,7 @@
         <th scope="col">Цена за ед.</th>
         <th scope="col">Сумма</th>
         <th scope="col">Количество</th>
+        <th scope="col">Изменить количество</th>
         <th scope="col">Удалить</th>
       </tr>
       </thead>
@@ -113,43 +114,52 @@
         <td th:text="${purchase.item.itemName}" style="width: 1000px;">PRODUCT NAME</td>
         <td th:text="${purchase.item.cost} + ' р.'">PRODUCT PRICE</td>
         <td th:text="${purchase.item.cost * purchase.amount} + ' р.'">PRODUCT TOTAL PRICE</td>
+
+        <form th:method="POST" th:action= "@{/shopping_basket/changeAmountPurchases}"
+              style="display: flex; margin-top: 20px;">
         <td>
+          <input type="hidden" th:name="purchaseId" th:value="${purchase.id}">
         <div>
-            <input Name="productCounts[]" class="count"
-                   type="number" size="2" value="1"
-                   th:id="${count}"
-                   min="1" max="10"
-                   th:value="${purchase.amount}" required>
+            <input name="amount"
+                   class="count"
+                   type="number"
+                   size="2"
+                   th:value="${purchase.amount}"
+                   id="amount"
+                   min="1"
+                   max="10">
           </div>
         </td>
         <td>
-          <button type="submit" name="delete" class="btn btn-danger" th:onclick="'changePurchaseId('+ ${purchase.getId()} + ')'">Удалить</button>
+          <button type="submit" class="btn btn-warning" style="margin-left: 10px; height: 47px;">изменить</button>
+      </td>
+        </form>
+        <td>
+          <a th:href = "@{/shopping_basket/changePurchases/{purchaseId} (purchaseId=${purchase.id})}"
+             class = "btn btn-danger">Удалить</a>
         </td>
+
       </tr>
       </tbody>
     </table>
     <h3>
-      Изменить количество
-      <button name="change" type="submit" class="btn btn-warning">Изменить</button>
-    </h3>
-    <h3>
       Общая стоимость
       <small class="text-muted" th:text="${totalPrice} + ' р.'">TOTAL PRICE</small>
     </h3>
-  </form>
+  </div>
   <hr th:if="${purchases.isEmpty() == false}">
   <h3 th:if="${purchases.isEmpty() == false}">Оформить заказ</h3>
   <form th:if="${purchases.isEmpty() == false}" class="row g-3" style="width: 500px;" th:method="POST" th:action="@{/sendPurchases}">
     <div class="col-12">
       <label for="inputAddress" class="form-label">Адрес</label>
-      <input name="address" type="text" class="form-control" id="inputAddress" placeholder="г. Москва, ул. Пушкина, д.3, кв.7" required>
+      <input name="address" type="text" class="form-control" id="inputAddress" placeholder="г. Москва, ул. Студенческая, д.33, к.4" required>
     </div>
     <div class="col-md-12">
       <label for="inputPhone" class="form-label">Номер телефона</label>
-      <input name="telephone" type="tel" class="form-control" id="inputPhone"  placeholder="+7(910)123-45-67" required>
+      <input name="telephone" type="tel" class="form-control" id="inputPhone"  placeholder="+7(923)812-33-47" required>
     </div>
     <div class="col-12">
-      <button type="submit" class="btn btn-primary">Отправить заказ</button>
+      <button type="submit" class="btn btn-success">Отправить заказ</button>
     </div>
   </form>
 </div>

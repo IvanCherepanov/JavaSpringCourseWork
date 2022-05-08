@@ -1,5 +1,6 @@
 package com.example.demo.controllers;
 
+import com.example.demo.model.entity.Item;
 import com.example.demo.model.entity.ShoppingBasket;
 import com.example.demo.model.entity.User;
 import com.example.demo.services.IItemService;
@@ -89,6 +90,29 @@ public class ShoppingBasketServiceController extends AbstractController<Shopping
         model.addAttribute("purchases", iShoppingBasketService.getItemByUserId(userId));
         model.addAttribute("productsService", iItemService);
         return "basket";
+    }
+
+    @GetMapping(value = "/changePurchases/{purchaseId}")
+    public String deletePurchase(Authentication authentication, @PathVariable Long purchaseId,  Model model) {
+        Long userId = ((User) (((UserServiceImpl) iUserService).loadUserByUsername(authentication.getName()))).getId();
+        if (iShoppingBasketService.getShoppingBasketByIdAndUserId(purchaseId, userId) != null) {
+            iShoppingBasketService.delete(purchaseId);
+        }
+        return "redirect:/shopping_basket/purchases";
+    }
+
+    @PostMapping("/changeAmountPurchases")
+    public String updatePurchase(Authentication authentication,
+                                 @RequestParam(name = "purchaseId") Long id,
+                                 @RequestParam(name = "amount") Integer amount,
+                             Model model) {
+        Long userId = ((User) (((UserServiceImpl) iUserService).loadUserByUsername(authentication.getName()))).getId();
+        if (iShoppingBasketService.getShoppingBasketByIdAndUserId(id, userId) != null) {
+            ShoppingBasket shoppingBasket = iShoppingBasketService.getShoppingBasketByIdAndUserId(id, userId);
+            shoppingBasket.setAmount(amount);
+            iShoppingBasketService.create(shoppingBasket);
+        }
+        return "redirect:/shopping_basket/purchases";
     }
 
 }
