@@ -3,10 +3,12 @@ package com.example.demo.controllers;
 import com.example.demo.model.entity.Item;
 import com.example.demo.model.entity.ShoppingBasket;
 import com.example.demo.model.entity.User;
+import com.example.demo.model.enumerations.MyValues;
 import com.example.demo.services.IItemService;
 import com.example.demo.services.IPetService;
 import com.example.demo.services.IShoppingBasketService;
 import com.example.demo.services.IUserService;
+import com.example.demo.services.impl.EmailService;
 import com.example.demo.services.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -24,26 +26,21 @@ public class ShoppingBasketServiceController extends AbstractController<Shopping
     private IUserService iUserService;
     private IPetService iPetService;
     private IShoppingBasketService iShoppingBasketService;
+    private EmailService emailService;
 
     @Autowired
     protected ShoppingBasketServiceController(IShoppingBasketService service,
                                               IItemService iItemService,
                                               IUserService iUserService,
                                               IPetService iPetService,
-                                              IShoppingBasketService iShoppingBasketService) {
+                                              IShoppingBasketService iShoppingBasketService,
+                                              EmailService emailService) {
         super(service);
         this.iItemService = iItemService;
         this.iUserService = iUserService;
         this.iPetService = iPetService;
         this.iShoppingBasketService = iShoppingBasketService;
-    }
-
-    private int getTotalPrice(List<ShoppingBasket> purchases) {
-        int result = 0;
-        for (ShoppingBasket purchase : purchases) {
-            result += (iItemService.findById(purchase.getItemId())).getCost() * purchase.getAmount();
-        }
-        return result;
+        this.emailService = emailService;
     }
 
     @PostMapping("/addPurchase")
@@ -83,7 +80,7 @@ public class ShoppingBasketServiceController extends AbstractController<Shopping
     public String purchases(Authentication authentication, Model model) {
         String userRole = ((User) (((UserServiceImpl) iUserService).loadUserByUsername(authentication.getName()))).getRole();
         Long userId = ((User) (((UserServiceImpl) iUserService).loadUserByUsername(authentication.getName()))).getId();
-        model.addAttribute("totalPrice", getTotalPrice(iShoppingBasketService.getItemByUserId(userId)));
+        model.addAttribute("totalPrice", iShoppingBasketService.getTotalPrice(iShoppingBasketService.getItemByUserId(userId)));
         model.addAttribute("userRole", userRole);
         model.addAttribute("userName", authentication.getName());
         model.addAttribute("pets", iPetService.getAll());
@@ -112,6 +109,28 @@ public class ShoppingBasketServiceController extends AbstractController<Shopping
             shoppingBasket.setAmount(amount);
             iShoppingBasketService.create(shoppingBasket);
         }
+        return "redirect:/shopping_basket/purchases";
+    }
+
+    @PostMapping(value = "/sendPurchases")
+    public String sendPurchases(Authentication authentication,
+                                @RequestParam(value="address") String address,
+                                @RequestParam(value="telephone") String telephone,
+                                Model model) {
+        User user = ((User) (((UserServiceImpl) iUserService).loadUserByUsername(authentication.getName())));
+        String userMessage = iShoppingBasketService.
+                createMessageForUser(iShoppingBasketService.
+                        getItemByUserId(user.getId()), user.getId());
+        String managerMessage = iShoppingBasketService.createMessageForManager(
+                user,
+                address,
+                telephone,
+                iShoppingBasketService.
+                        getItemByUserId(user.getId()));
+
+        emailService.sendmail(user.getEmail(), userMessage);
+        emailService.sendmail(MyValues.EMAILMENEGER, managerMessage);
+        iShoppingBasketService.deleteAllByUserId(user.getId());
         return "redirect:/shopping_basket/purchases";
     }
 

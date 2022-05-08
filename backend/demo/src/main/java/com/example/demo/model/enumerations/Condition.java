@@ -13,8 +13,4 @@ public enum Condition {
         return value;
     }
 }
-class help{
-    public static void main(String[] args) {
-        System.out.println( Condition.values()[0].getValue());
-    }
-}
+

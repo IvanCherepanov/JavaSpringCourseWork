@@ -9,7 +9,9 @@
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
 </head>
+
 <body>
+
 <nav class="navbar navbar-expand-md bg-dark navbar-dark">
   <div class="container-fluid">
     <a class="navbar-brand" href="/">PetStore</a>
@@ -89,6 +91,7 @@
     </div>
   </div>
 </nav>
+
 <div class="content padding-site">
   <h3 th:text="'Здравствуйте, ' + ${userName}">TEXT</h3>
   <h3 th:if="${purchases.isEmpty() == true}" >Корзина пуста</h3>
@@ -147,9 +150,11 @@
       <small class="text-muted" th:text="${totalPrice} + ' р.'">TOTAL PRICE</small>
     </h3>
   </div>
+
   <hr th:if="${purchases.isEmpty() == false}">
   <h3 th:if="${purchases.isEmpty() == false}">Оформить заказ</h3>
-  <form th:if="${purchases.isEmpty() == false}" class="row g-3" style="width: 500px;" th:method="POST" th:action="@{/sendPurchases}">
+
+  <form th:if="${purchases.isEmpty() == false}" class="row g-3" style="width: 500px;" th:method="POST" th:action="@{/shopping_basket/sendPurchases}">
     <div class="col-12">
       <label for="inputAddress" class="form-label">Адрес</label>
       <input name="address" type="text" class="form-control" id="inputAddress" placeholder="г. Москва, ул. Студенческая, д.33, к.4" required>
@@ -165,6 +170,7 @@
 </div>
 
 </body>
+
 <footer class="bg-dark fixed-bottom text-center text-white">
   </div>
   <!-- Copyright -->
