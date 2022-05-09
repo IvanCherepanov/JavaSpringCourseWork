@@ -12,7 +12,7 @@
 
 <body>
 
-<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+<nav class="navbar fixed-top navbar-expand-md bg-dark navbar-dark">
   <div class="container-fluid">
     <a class="navbar-brand" href="/">PetStore</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -24,14 +24,16 @@
           <a class="nav-link" aria-current="page" href="/">Главная</a>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown1" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Товары
+          <a class="nav-link dropdown-toggle" href="http://example.com"
+             id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Питомцы
           </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown1">
-            <li th:each="pet : ${pets}">
-              <a class="dropdown-item" th:href="@{/products(pId=${pet.id}, pTId=0, pTDId=0)}" th:text="${pet.petName}">Text</a>
-            </li>
-          </ul>
+          <div class="dropdown-menu"  aria-labelledby="navbarDropdownMenuLink">
+            <ul th:each="pet : ${pets}">
+              <a class="dropdown-item bg-white" th:href="@{/user/products(pId=${pet.id}, pTId=0)}"
+                 th:text="${pet.petName}">Text</a>
+            </ul>
+          </div>
         </li>
 
         <li class="nav-item">
@@ -50,35 +52,14 @@
           <a class="nav-link" href="/logout">Выйти</a>
         </li>
 
-
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Другое
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            <a th:if="${userRole} == 'ADMIN'" class="dropdown-item" href="/admin">Админ панель</a>
-            <a class="dropdown-item" href="/about">О проекте</a>
-          </div>
-        </li>
-
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Dropdown link
+          <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink"
+             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Дополнительно
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
             <a th:if="${userRole} == 'ADMIN'" class="dropdown-item" href="/admin">Админ панель</a>
             <a class="dropdown-item" href="/home">О проекте</a>
-          </div>
-        </li>
-
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Dropdown link
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            <ul th:each="pet : ${pets}">
-              <a class="dropdown-item" th:href="@{/user/products(pId=${pet.id}, pTId=0)}" th:text="${pet.petName}">Text</a>
-            </ul>
           </div>
         </li>
 
@@ -91,8 +72,7 @@
     </div>
   </div>
 </nav>
-
-<div class="content padding-site">
+<div class="content padding-site m-2 mt-5 ">
   <h3 th:text="'Здравствуйте, ' + ${userName}">TEXT</h3>
   <h3 th:if="${purchases.isEmpty() == true}" >Корзина пуста</h3>
   <h3 th:if="${purchases.isEmpty() == false}">Корзина</h3>
@@ -168,7 +148,10 @@
     </div>
   </form>
 </div>
-
+<div class="invisible container mb-5 mt-5">
+  <p>Конец</p>
+  <h2>Конец</h2>
+</div>
 </body>
 
 <footer class="bg-dark fixed-bottom text-center text-white">

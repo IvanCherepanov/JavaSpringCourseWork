@@ -1,6 +1,7 @@
 package com.example.demo.controllers;
 
 import com.example.demo.model.entity.User;
+import com.example.demo.model.enumerations.RoleType;
 import com.example.demo.services.IUserService;
 import com.example.demo.services.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +45,6 @@ public class AuthController extends AbstractController<User, IUserService>{
         return "start";
     }
 
-
     @GetMapping("/logout")
     public String logout() {
         return "redirect:/";
@@ -69,7 +69,7 @@ public class AuthController extends AbstractController<User, IUserService>{
             return "registration";
         }
         else {
-            ((UserServiceImpl) service).create(email, username, password);
+            ((UserServiceImpl) service).create(email, username, password, RoleType.USER.name());
             System.out.println("fdnmgjdfgjdfnbjofznbjofnbndfjinbjidfnbijd");
             System.out.println(service.getAll());
             authWithHttpServletRequest(request, username, password);

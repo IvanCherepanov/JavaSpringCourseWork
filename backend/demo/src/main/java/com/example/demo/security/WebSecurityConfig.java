@@ -43,7 +43,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .cors()
                     .disable()
                     .authorizeRequests()
-                    .antMatchers("/").permitAll()//стартовая страница
+                    .antMatchers("/","/user/products").permitAll()//стартовая страница
                     .antMatchers("/pet/*").hasAnyAuthority("ADMIN")
                     .antMatchers("/login", "/sign").permitAll()
                     .antMatchers("/logout").hasAnyAuthority("ADMIN", "USER")

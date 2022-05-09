@@ -12,5 +12,7 @@ public enum Condition {
     public String getValue() {
         return value;
     }
+
+
 }
 

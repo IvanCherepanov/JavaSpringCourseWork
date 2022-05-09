@@ -115,8 +115,7 @@ public class ShoppingBasketServiceController extends AbstractController<Shopping
     @PostMapping(value = "/sendPurchases")
     public String sendPurchases(Authentication authentication,
                                 @RequestParam(value="address") String address,
-                                @RequestParam(value="telephone") String telephone,
-                                Model model) {
+                                @RequestParam(value="telephone") String telephone) {
         User user = ((User) (((UserServiceImpl) iUserService).loadUserByUsername(authentication.getName())));
         String userMessage = iShoppingBasketService.
                 createMessageForUser(iShoppingBasketService.

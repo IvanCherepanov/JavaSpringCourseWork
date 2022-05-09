@@ -45,12 +45,13 @@ public class UserServiceImpl extends AbstractServiceImpl<User, IUserRepository> 
                 UsernameNotFoundException("User not exist with name :" +username);
     }
 
-    public void create(String email,String username,String password) {
+    @Override
+    public void create(String email,String username,String password, String role) {
         User user = new User();
         user.setPassword(bCryptPasswordEncoder.encode(password));
         user.setEmail(email);
         user.setUsername(username);
-        user.setRole(ApplicationUserRole.USER.name());
+        user.setRole(role);
         iUserRepository.save(user);
         System.out.println(iUserRepository.findUserByUsername(username));
     }

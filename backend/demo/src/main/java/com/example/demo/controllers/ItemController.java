@@ -97,6 +97,7 @@ public class ItemController extends AbstractController<Item, IItemService> {
     @GetMapping("del/{id}")
     public String deleteItem(@PathVariable Long id) {
         service.delete(id);
+
         return "redirect:/item/list";
     }
 }

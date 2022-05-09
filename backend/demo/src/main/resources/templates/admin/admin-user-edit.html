@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
-  <title>Редактирование пользователя</title>
+  <title>Редактировать пользователя</title>
   <meta charset="utf-8">
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
@@ -46,20 +46,55 @@
     <div class ="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
       <h1 class = "text-center"> Обновить </h1>
       <div class = "card-body">
-        <form th:action="@{/item_type/{id} (id=${type.id})}" th:object = "${type}" method="POST">
-          <div class ="form-group">
-            <label> pet Name </label>
+        <form th:action="@{/user/{id} (id=${user.id})}" th:object = "${user}" method="POST">
+          <div class="form-group">
+            <label> Имя </label>
             <input
-                    type = "text"
-                    name = "itemTypeName"
-                    th:field = "*{itemTypeName}"
-                    class = "form-control"
-                    placeholder="Enter pet Name"
+                    type="text"
+                    name="username"
+                    th:field="*{username}"
+                    class="form-control"
+                    placeholder="введите имя"
+            />
+          </div>
+          <div class="form-group">
+            <label> Пароль </label>
+            <input
+                    type="password"
+                    name="password"
+                    th:field="*{password}"
+                    class="form-control"
+                    placeholder="200"
+            />
+          </div>
+          <div class="form-group">
+            <label> Email </label>
+            <input
+                    type="email"
+                    name="email"
+                    th:field="*{email}"
+                    class="form-control"
+                    placeholder="введите email"
             />
           </div>
 
-          <div class = "box-footer">
-            <button type="submit" class = "btn btn-primary">
+          <div class="form-group">
+            <label> Роль </label>
+            <select
+                    class="form-control"
+                    th:field="*{role}"
+                    id="dropOperator">
+              <option value="0">select operator</option>
+              <option
+                      th:each="roleType : ${T(com.example.demo.model.enumerations.RoleType).values()}"
+                      th:value="${roleType.name()}"
+                      th:text="${roleType.name()}"
+              ></option>
+            </select>
+          </div>
+
+          <div class="box-footer">
+            <button type="submit" class="btn btn-primary">
               Submit
             </button>
           </div>
