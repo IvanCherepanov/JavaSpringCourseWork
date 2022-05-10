@@ -5,9 +5,11 @@ import com.example.demo.model.entity.ItemType;
 import com.example.demo.services.IItemService;
 import com.example.demo.services.IItemTypeService;
 import com.example.demo.services.IPetService;
+import com.example.demo.services.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,17 +21,42 @@ import java.util.List;
 public class ItemController extends AbstractController<Item, IItemService> {
     private IPetService iPetService;
     private IItemTypeService iItemTypeService;
+    private IUserService iUserService;
+    private IItemService iItemService;
 
     @Autowired
-    protected ItemController(IItemService service, IPetService iPetService, IItemTypeService iItemTypeService) {
+    protected ItemController(IItemService service,
+                             IPetService iPetService,
+                             IItemTypeService iItemTypeService,
+                             IUserService iUserService,
+                             IItemService iItemService) {
         super(service);
         this.iPetService = iPetService;
         this.iItemTypeService = iItemTypeService;
+        this.iUserService = iUserService;
+        this.iItemService = iItemService;
     }
 
-    @GetMapping(value = "/name/{itemName}")
-    public List<Item> getItemsByName(@PathVariable(name = "itemName") String itemName) {
-        return service.getItemByName(itemName);
+
+    @GetMapping(value = "/name")
+    public String getItemsByName(Authentication authentication,
+                                 @RequestParam(name = "itemName") String itemName,
+                                 Model model) {
+        model.addAttribute("userRole",iUserService.getUserRole(authentication));
+        model.addAttribute("userId", iUserService.getUserId(authentication));
+        model.addAttribute("pets", iPetService.getAll());
+        model.addAttribute("types", iItemTypeService.getAll());
+        //System.out.println(iItemService.getItemContainingItemName(itemName).size());
+        System.out.println(itemName);
+        System.out.println("11111111111111111");
+        System.out.println(itemName);
+        //System.out.println(iItemService.getItemContainingItemName("Объект").size());
+
+        //System.out.println("222222222222222222");
+        //iItemService.getItemContainingItemName(itemName).stream().forEach(x -> System.out.println(x.toString()));
+        //model.addAttribute("items", iItemService.getItemByName(itemName));
+        model.addAttribute("items", iItemService.getItemContainingItemName(itemName));
+        return "searchProduct";
     }
 
     @GetMapping(value = "/type/{item_type_id}")

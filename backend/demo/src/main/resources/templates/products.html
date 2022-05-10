@@ -67,9 +67,11 @@
 
             </ul>
 
-            <form class="d-flex" th:method="GET" th:action="@{/search}" >
+            <form class="d-flex" th:method="GET" th:action="@{/item/name}" >
                 <input class="form-control me-2" float="right"
-                       type="search" placeholder="Поиск" aria-label="Поиск" name="name" required>
+                       type="search" placeholder="Поиск" aria-label="Поиск"
+                       th:name="itemName"
+                       required>
                 <button class="btn btn-outline-success" type="submit">Поиск</button>
             </form>
         </div>

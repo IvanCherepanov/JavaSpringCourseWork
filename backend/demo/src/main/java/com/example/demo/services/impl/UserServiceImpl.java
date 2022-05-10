@@ -6,6 +6,7 @@ import com.example.demo.security.ApplicationUserRole;
 import com.example.demo.services.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -27,6 +28,21 @@ public class UserServiceImpl extends AbstractServiceImpl<User, IUserRepository> 
         this.iUserRepository = defaultDao;
     }
 
+    @Override
+    public String getUserRole(Authentication authentication) {
+        if (authentication == null)
+            return "GUEST";
+        else
+            return ((User) loadUserByUsername(authentication.getName())).getRole();
+    }
+
+    @Override
+    public Long getUserId(Authentication authentication) {
+        if (authentication == null)
+            return -1l;
+        else
+            return ((User) loadUserByUsername(authentication.getName())).getId();
+    }
 
     @Override
     public User update(Long id, User entity) {

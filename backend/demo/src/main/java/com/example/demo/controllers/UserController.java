@@ -38,22 +38,6 @@ public class UserController extends AbstractController<User, IUserService> {
         this.iItemTypeService = iItemTypeService;
     }
 
-    private String getUserRole(Authentication authentication) {
-        if (authentication == null)
-            return "GUEST";
-        else
-            return ((User) (((UserServiceImpl) iUserService).loadUserByUsername(authentication.getName()))).getRole();
-    }
-
-    private Long getUserId(Authentication authentication) {
-        if (authentication == null)
-            return -1l;
-        else
-            return ((User) (((UserServiceImpl) iUserService).
-                    loadUserByUsername(authentication.getName()))).
-                    getId();
-    }
-
     @GetMapping("/products")
     public String products(Authentication authentication,
                            @RequestParam(name = "pId", required = false) Long IpetId,
@@ -61,9 +45,9 @@ public class UserController extends AbstractController<User, IUserService> {
                            @RequestParam(name = "sId", required = false) Integer sortId,
                            Model model) {
         // TODO: 09.05.2022 добавить эти методы везде, где не админка
-        model.addAttribute("userRole", getUserRole(authentication));
-        model.addAttribute("userId", getUserId(authentication));
-        System.out.println(getUserRole(authentication));
+        model.addAttribute("userRole", iUserService.getUserRole(authentication));
+        model.addAttribute("userId", iUserService.getUserId(authentication));
+        System.out.println(iUserService.getUserRole(authentication));
         Long petId = (IpetId == null) ? 0 : IpetId;
         Long productTypeId = (IproductTypeId == null) ? 0 : IproductTypeId;
 
@@ -95,12 +79,14 @@ public class UserController extends AbstractController<User, IUserService> {
         return "products";
     }
 
+
+
     @GetMapping("/list")
     public String readingAll(Authentication authentication,
                              Model model) {
         model.addAttribute("users", service.getAll());
-        model.addAttribute("userRole", getUserRole(authentication));
-        model.addAttribute("userId", getUserId(authentication));
+        model.addAttribute("userRole", iUserService.getUserRole(authentication));
+        model.addAttribute("userId", iUserService.getUserId(authentication));
         System.out.println(456);
         return "admin/admin-user";
     }

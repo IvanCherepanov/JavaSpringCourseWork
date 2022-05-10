@@ -77,4 +77,10 @@ public class ItemServiceImpl extends AbstractServiceImpl<Item, IItemRepository> 
     public List<Item> getItemByPetId(Long pId) {
         return iItemRepository.findItemByPetTypeId(pId);
     }
+
+    @Override
+    public List<Item> getItemContainingItemName(String name) {
+        //var x = iItemRepository.findByItemNameContaining(name);
+        return iItemRepository.findItemsByItemNameIsContainingIgnoreCase(name);
+    }
 }
