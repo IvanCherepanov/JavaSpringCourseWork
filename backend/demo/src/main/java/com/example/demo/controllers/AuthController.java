@@ -72,7 +72,7 @@ public class AuthController extends AbstractController<User, IUserService>{
         else {
             ((UserServiceImpl) service).create(email, username, password, RoleType.USER.name());
             authWithHttpServletRequest(request, username, password);
-            return "redirect:/home";
+            return "redirect:/user/home";
         }
     }
 
