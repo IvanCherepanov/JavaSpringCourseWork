@@ -15,6 +15,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebSecurity
@@ -25,7 +27,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public WebSecurityConfig(UserServiceImpl userService) {
         this.userService = userService;
     }
-
 
     // TODO: 05.05.2022 переделать как у себя в паттернах
     @Override
@@ -45,11 +46,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .authorizeRequests()
                     .antMatchers("/","/user/products").permitAll()//стартовая страница
                     .antMatchers("/pet/*").hasAnyAuthority("ADMIN")
-                    .antMatchers("/login", "/sign").permitAll()
+                    .antMatchers( "/sign").permitAll()
                     .antMatchers("/logout").hasAnyAuthority("ADMIN", "USER")
                     .anyRequest().authenticated()
                 .and()
-                    .formLogin().and().logout().logoutSuccessUrl("/").and().sessionManagement()
+                    .formLogin().loginPage("/login").permitAll().
+                and()
+                    .logout().logoutSuccessUrl("/").
+                and().sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                     .sessionFixation().migrateSession();
     }
