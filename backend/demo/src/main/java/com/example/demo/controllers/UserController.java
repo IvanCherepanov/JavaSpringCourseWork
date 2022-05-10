@@ -108,7 +108,6 @@ public class UserController extends AbstractController<User, IUserService> {
         model.addAttribute("users", service.getAll());
         model.addAttribute("user", user);
         return "admin/admin-user-add";
-
     }
 
     @PostMapping("/create")
