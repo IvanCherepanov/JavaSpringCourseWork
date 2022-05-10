@@ -3,7 +3,6 @@
 <head>
     <title>WebJars Demo</title>
     <meta charset="utf-8">
-
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
@@ -11,77 +10,65 @@
 
 </head>
 <body>
-<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+<nav class="navbar fixed-top navbar-expand-md bg-dark navbar-dark mb-5">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/">AnimalShop</a>
+        <a class="navbar-brand text-white">AnimalShop</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="/">Главная</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Товары
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown1">
 
+                <li class="nav-item" th:if="${userTypeRole} != 'ADMIN'">
+                    <a class="nav-link" href="/user/products">За покупками</a>
+                </li>
 
-                    </ul>
+                <li class="nav-item" th:if="${userTypeRole} == 'ADMIN'">
+                    <a class="nav-link" href="/user/products">Основной сайт</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/purchases">Корзина</a>
+
+                <li class="nav-item" th:if="${userTypeRole} == 'ADMIN'">
+                    <a class="nav-link" href="/user/admin">Админ панель</a>
                 </li>
-                <li class="nav-item">
+
+                <li class="nav-item" th:if="${userTypeRole} == 'GUEST'">
                     <a class="nav-link" href="/login">Войти</a>
                 </li>
-                <li class="nav-item" >
+
+                <li class="nav-item" th:if="${userTypeRole} == 'GUEST'">
                     <a class="nav-link" href="/sign">Зарегистрироваться</a>
                 </li>
-                <li class="nav-item" >
+
+                <li class="nav-item justify-content-end" th:if="${userTypeRole} == 'ADMIN' or ${userTypeRole} == 'USER'">
                     <a class="nav-link" href="/logout">Выйти</a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown2" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Другое
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown2">
-                        <li></li> <a class="dropdown-item" href="/admin">Админ панель</a></li>
-                        <li><a class="dropdown-item" href="/about">О проекте</a></li>
-                    </ul>
-                </li>
             </ul>
-            <form class="d-flex" th:method="GET" th:action="@{/search}" >
-                <input class="form-control me-2" type="search" placeholder="Поиск" aria-label="Поиск" name="name">
-                <button class="btn btn-outline-success" type="submit">Поиск</button>
-            </form>
         </div>
     </div>
 </nav>
-<div class="content padding-site">
-   <p class="h1">Курсовая работа</p>
-   <p class="h3">ИКБО-01-20 Черепанов Иван Владимирович</p>
-   <div class="card" style="width: 18rem;">
-       <!--<img src="img/about/github-profile-pic.png" class="card-img-top" alt="github-profile-pic">-->
-        <div class="card-body">
-            <i class="bi bi-github"></i>
-            <h5 class="card-title">Github репозиторий</h5>
-            <p class="card-text">Java Spring Course Work.</p>
-            <a href="https://github.com/IvanCherepanov/JavaSpringCourseWork" class="btn btn-primary">Перейти</a>
-        </div>
-    </div>
+<div class="content m-5">
+    <p class="invisible"> temp</p>
+    <p class="mt-1"> О сети зоомагазинов "AnimalShop"</p>
+    <p>   История нашей компании обычная и необычная одновременно.
+    Многие с детства мечтают о щенке или котенке, а затем хотят, чтобы четвероногих друзей было как можно больше.
+    Мечтают многие, а сбывается лишь у самых настойчивых и верных цели.</p>
+
+    <p>   Если же вы только думаете завести себе четвероногого друга,
+    то наши специалисты помогут вам выбрать того, кто подойдет именно вам,
+    и ответят на любые вопросы по его кормлению, содержанию, уходу и лечению.</p>
+
+    <p>Для вашего удобства там же предусмотрен заказ товаров с доставкой на дом.</p>
+
+    <p>  Мы ждем вас в наших магазинах! Добро пожаловать!</p>
+     <p>  По всем интересующим вопросам вы можете обращаться к нам по e-mail: info@animalShop.ru. </p>
 </div>
 </body>
-<footer class="bg-dark fixed-bottom text-center text-white">
+<footer class="bg-dark fixed-bottom text-center text-white mt-3">
     </div>
-    <!-- Copyright -->
     <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
         © 2022 Copyright:
         <a class="text-white" href="https://github.com/IvanCherepanov/JavaSpringCourseWork">Черепанов Иван Владимирович ИКБО-01-20, 2022</a>
     </div>
-    <!-- Copyright --><
 </footer>
 
 </html>

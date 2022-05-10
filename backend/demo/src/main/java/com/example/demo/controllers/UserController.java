@@ -38,6 +38,20 @@ public class UserController extends AbstractController<User, IUserService> {
         this.iItemTypeService = iItemTypeService;
     }
 
+    @GetMapping("/home")
+    public String getHome(Authentication authentication,
+                          Model model) {
+        model.addAttribute("userTypeRole", iUserService.getUserRole(authentication));
+        return "index";
+    }
+
+    @GetMapping("/admin")
+    public String getAdmin(Authentication authentication,
+                          Model model) {
+        model.addAttribute("userTypeRole", iUserService.getUserRole(authentication));
+        return "admin/admin-start";
+    }
+
     @GetMapping("/products")
     public String products(Authentication authentication,
                            @RequestParam(name = "pId", required = false) Long IpetId,
@@ -55,8 +69,6 @@ public class UserController extends AbstractController<User, IUserService> {
         iPetService.getAll().stream().forEach(x -> System.out.println(x.getPetName()));
         model.addAttribute("pId", petId);
         model.addAttribute("pTId", productTypeId);
-
-
         model.addAttribute("types", iItemTypeService.getAll());
 
         if (petId == 0 && productTypeId == 0) {
@@ -78,8 +90,6 @@ public class UserController extends AbstractController<User, IUserService> {
         model.addAttribute("sortItemsByCost", Comparator.comparing(Item::getCost));
         return "products";
     }
-
-
 
     @GetMapping("/list")
     public String readingAll(Authentication authentication,
@@ -137,7 +147,6 @@ public class UserController extends AbstractController<User, IUserService> {
     @GetMapping("del/{id}")
     public String deleteUser(@PathVariable Long id) {
         service.delete(id);
-
         return "redirect:/user/list";
     }
 }

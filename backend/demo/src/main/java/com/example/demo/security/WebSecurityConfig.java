@@ -44,15 +44,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .cors()
                     .disable()
                     .authorizeRequests()
-                    .antMatchers("/","/user/products").permitAll()//стартовая страница
+                    .antMatchers("/user/home","/user/products").permitAll()//стартовая страница
                     .antMatchers("/pet/*").hasAnyAuthority("ADMIN")
                     .antMatchers( "/sign").permitAll()
                     .antMatchers("/logout").hasAnyAuthority("ADMIN", "USER")
                     .anyRequest().authenticated()
                 .and()
-                    .formLogin().loginPage("/login").permitAll().
+                    .formLogin().loginPage("/login").permitAll().failureUrl("/login-error").
                 and()
-                    .logout().logoutSuccessUrl("/").
+                    .logout().logoutSuccessUrl("/home").
                 and().sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                     .sessionFixation().migrateSession();

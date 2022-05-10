@@ -23,6 +23,7 @@
             <input type="password" class="form-control" id="inputPassword" required Name="password">
         </div>
     </div>
+    <div class="alert" th:if="${errorMessage}" th:text="${errorMessage}"></div>
     <div class="mb-3 row">
         <button type="submit" class="btn btn-primary mb-3" style="margin-left: 13px; width: 500px;">Войти</button>
     </div>

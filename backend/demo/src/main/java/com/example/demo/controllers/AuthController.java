@@ -6,6 +6,8 @@ import com.example.demo.services.IUserService;
 import com.example.demo.services.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.WebAttributes;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class AuthController extends AbstractController<User, IUserService>{
@@ -26,28 +29,27 @@ public class AuthController extends AbstractController<User, IUserService>{
         this.iUserService = service;
     }
 
-    private String getUserRole(Authentication authentication) {
-        if (authentication == null)
-            return "GUEST";
-        else
-            return ((User) ((UserServiceImpl) service).loadUserByUsername(authentication.getName())).getRole();
-    }
-
-    private Long getUserId(Authentication authentication) {
-        if (authentication == null)
-            return 0L;
-        else
-            return ((User) ((UserServiceImpl) service).loadUserByUsername(authentication.getName())).getId();
-    }
-
-    @GetMapping("/")
-    public String getStart() {
-        return "start";
+    @GetMapping("/login-error")
+    public String login(Authentication authentication,
+                        HttpServletRequest request,
+                        Model model) {
+        HttpSession session = request.getSession(false);
+        String errorMessage = null;
+        if (session != null) {
+            AuthenticationException ex = (AuthenticationException) session
+                    .getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
+            if (ex != null) {
+                errorMessage = ex.getMessage();
+            }
+        }
+        model.addAttribute("errorMessage", errorMessage);
+        model.addAttribute("userRole", iUserService.getUserRole(authentication));
+        return "login";
     }
 
     @GetMapping("/logout")
     public String logout() {
-        return "redirect:/";
+        return "redirect:/login";
     }
 
     @GetMapping("/sign")
@@ -65,13 +67,10 @@ public class AuthController extends AbstractController<User, IUserService>{
     public String signCreate(HttpServletRequest request, @RequestParam String email, @RequestParam String username, @RequestParam String password, Model model) {
         if ((User) ((UserServiceImpl) service).loadUserByUsername(username) != null) {
             model.addAttribute("Status", "user_exists");
-            System.out.println("gmdmgkndfmmfghjhnfgjhf");
             return "registration";
         }
         else {
             ((UserServiceImpl) service).create(email, username, password, RoleType.USER.name());
-            System.out.println("fdnmgjdfgjdfnbjofznbjofnbndfjinbjidfnbijd");
-            System.out.println(service.getAll());
             authWithHttpServletRequest(request, username, password);
             return "redirect:/home";
         }
