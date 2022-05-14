@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS item_type
 CREATE TABLE IF NOT EXISTS item
 (
     id    SERIAL NOT NULL PRIMARY KEY ,
-    cost INTEGER ,
+    cost INTEGER,
     item_name  VARCHAR(256) NOT NULL,
     description VARCHAR(256) NOT NULL,
     item_type_id INTEGER,
