@@ -42,5 +42,7 @@ CREATE TABLE IF NOT EXISTS shopping_basket
     id SERIAL PRIMARY KEY ,
     user_id INTEGER,
     item_id INTEGER,
+    FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
+    FOREIGN KEY (item_id) REFERENCES item (id) ON DELETE CASCADE,
     amount INTEGER
     );
