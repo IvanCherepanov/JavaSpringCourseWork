@@ -51,6 +51,10 @@ public class UserServiceImpl extends AbstractServiceImpl<User, IUserRepository> 
         return create(entity);
     }
 
+    public User getUserByName(String username){
+        return iUserRepository.findUserByUsername(username);
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         var user =  iUserRepository.findUserByUsername(username);
@@ -63,6 +67,7 @@ public class UserServiceImpl extends AbstractServiceImpl<User, IUserRepository> 
 
     @Override
     public void create(String email,String username,String password, String role) {
+        System.out.println("on 4 create");
         User user = new User();
         user.setPassword(bCryptPasswordEncoder.encode(password));
         user.setEmail(email);

@@ -1,5 +1,6 @@
 package com.example.demo.controllers;
 
+import com.example.demo.model.dao.IUserRepository;
 import com.example.demo.model.entity.User;
 import com.example.demo.model.enumerations.RoleType;
 import com.example.demo.services.IUserService;
@@ -65,12 +66,14 @@ public class AuthController extends AbstractController<User, IUserService>{
 
     @PostMapping("/sign")
     public String signCreate(HttpServletRequest request, @RequestParam String email, @RequestParam String username, @RequestParam String password, Model model) {
-        if ((User) ((UserServiceImpl) service).loadUserByUsername(username) != null) {
+
+        if  ((User) ((UserServiceImpl) service).getUserByName(username) != null) {
             model.addAttribute("Status", "user_exists");
             return "registration";
         }
         else {
             ((UserServiceImpl) service).create(email, username, password, RoleType.USER.name());
+            System.out.println("sign-else");
             authWithHttpServletRequest(request, username, password);
             return "redirect:/user/home";
         }
