@@ -46,15 +46,6 @@ public class ItemController extends AbstractController<Item, IItemService> {
         model.addAttribute("userId", iUserService.getUserId(authentication));
         model.addAttribute("pets", iPetService.getAll());
         model.addAttribute("types", iItemTypeService.getAll());
-        //System.out.println(iItemService.getItemContainingItemName(itemName).size());
-        System.out.println(itemName);
-        System.out.println("11111111111111111");
-        System.out.println(itemName);
-        //System.out.println(iItemService.getItemContainingItemName("Объект").size());
-
-        //System.out.println("222222222222222222");
-        //iItemService.getItemContainingItemName(itemName).stream().forEach(x -> System.out.println(x.toString()));
-        //model.addAttribute("items", iItemService.getItemByName(itemName));
         model.addAttribute("items", iItemService.getItemContainingItemName(itemName));
         return "searchProduct";
     }
@@ -63,11 +54,6 @@ public class ItemController extends AbstractController<Item, IItemService> {
     public List<Item> getItemsByItemType(@PathVariable(name = "item_type_id") Long itemName) {
         return service.getItemByItemType(itemName);
     }
-
-    /**@GetMapping(value = "/sort/{sort_id}")
-    public List<Item> getItemsSort(@PathVariable(name = "sort_id") int itemName) {
-        return service.getAllSorting(itemName);
-    }*/
 
     @GetMapping("/list")
     public String readingAll(Model model) {
@@ -78,7 +64,6 @@ public class ItemController extends AbstractController<Item, IItemService> {
 
     @GetMapping("/new")
     public String createItem(Model model) {
-        // create student object to hold student form data
         Item item = new Item();
         model.addAttribute("pets", iPetService.getAll());
         model.addAttribute("types", iItemTypeService.getAll());
@@ -103,18 +88,13 @@ public class ItemController extends AbstractController<Item, IItemService> {
 
     @PostMapping("/{id}")
     public String updateItem(@PathVariable Long id,
-                             @ModelAttribute("item") Item item,
-                             Model model) {
-
-        // get pet from database by id
+                             @ModelAttribute("item") Item item) {
         Item existingItem = service.findById(id);
         existingItem.setId(id);
         existingItem.setCost(item.getCost());
         existingItem.setDescription(item.getDescription());
         existingItem.setImagePath(item.getImagePath());
         existingItem.setItemName(item.getItemName());
-
-        // save updated pet object
         service.update(id, existingItem);
         return "redirect:/item/list";
     }
@@ -124,7 +104,6 @@ public class ItemController extends AbstractController<Item, IItemService> {
     @GetMapping("del/{id}")
     public String deleteItem(@PathVariable Long id) {
         service.delete(id);
-
         return "redirect:/item/list";
     }
 }

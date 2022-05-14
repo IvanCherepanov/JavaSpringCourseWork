@@ -10,7 +10,6 @@ import com.example.demo.services.IUserService;
 import com.example.demo.services.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -58,10 +57,8 @@ public class UserController extends AbstractController<User, IUserService> {
                            @RequestParam(name = "pTId", required = false) Long IproductTypeId,
                            @RequestParam(name = "sId", required = false) Integer sortId,
                            Model model) {
-        // TODO: 09.05.2022 добавить эти методы везде, где не админка
         model.addAttribute("userRole", iUserService.getUserRole(authentication));
         model.addAttribute("userId", iUserService.getUserId(authentication));
-        System.out.println(iUserService.getUserRole(authentication));
         Long petId = (IpetId == null) ? 0 : IpetId;
         Long productTypeId = (IproductTypeId == null) ? 0 : IproductTypeId;
 
