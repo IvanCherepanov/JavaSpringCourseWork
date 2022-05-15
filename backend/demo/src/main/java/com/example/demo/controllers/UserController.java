@@ -63,25 +63,21 @@ public class UserController extends AbstractController<User, IUserService> {
         Long productTypeId = (IproductTypeId == null) ? 0 : IproductTypeId;
 
         model.addAttribute("pets", iPetService.getAll());
-        iPetService.getAll().stream().forEach(x -> System.out.println(x.getPetName()));
+        //iPetService.getAll().stream().forEach(x -> System.out.println(x.getPetName()));
         model.addAttribute("pId", petId);
         model.addAttribute("pTId", productTypeId);
         model.addAttribute("types", iItemTypeService.getAll());
 
         if (petId == 0 && productTypeId == 0) {
             model.addAttribute("items", iItemService.getAllSorting(sortId, iItemService.getAll()));
-            System.out.println("1");
         }
         else if (petId == 0 && productTypeId != 0) {
             model.addAttribute("items",iItemService.getAllSorting(sortId, iItemService.getItemByItemType(productTypeId)));
-            System.out.println("2");
         }
         else if (petId != 0 && productTypeId == 0) {
             model.addAttribute("items", iItemService.getAllSorting(sortId,iItemService.getItemByPetId(petId)));
-            System.out.println("3");
         } else {
             model.addAttribute("items", iItemService.getAllSorting(sortId,iItemService.getItemByPetIdAndTypeId(petId, productTypeId)));
-            System.out.println("4");
         }
         model.addAttribute("sortItemsByName", Comparator.comparing(Item::getItemName));
         model.addAttribute("sortItemsByCost", Comparator.comparing(Item::getCost));

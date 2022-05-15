@@ -2,7 +2,6 @@ package com.example.demo.services.impl;
 
 import com.example.demo.model.dao.IUserRepository;
 import com.example.demo.model.entity.User;
-import com.example.demo.security.ApplicationUserRole;
 import com.example.demo.services.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

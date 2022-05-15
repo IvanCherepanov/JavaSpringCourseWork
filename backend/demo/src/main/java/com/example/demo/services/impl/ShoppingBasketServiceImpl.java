@@ -72,9 +72,8 @@ public class ShoppingBasketServiceImpl extends AbstractServiceImpl<ShoppingBaske
         for (ShoppingBasket purchase : userPurchases) {
             userProducts.add(purchase.getItem());
         }
-        // TODO: 08.05.2022 на бафферы первести
-        String result = "Здравствуйте, " + userName + " ваш заказ:<br>";
-        result += getStringOrder(userPurchases, userProducts, result);
+        String result = "Здравствуйте, " + userName + ", ваш заказ:<br>";
+        result = getStringOrder(userPurchases, userProducts, result);
         result += "Ждите звонка менеджера.";
         return result;
     }
@@ -96,7 +95,7 @@ public class ShoppingBasketServiceImpl extends AbstractServiceImpl<ShoppingBaske
         result += "Адрес: " + address + "<br>";
         result += "____________________________<br>";
         result += "Заказ:<br>";
-        result += getStringOrder(userPurchases, userProducts, result);
+        result = getStringOrder(userPurchases, userProducts, result);
         return result;
     }
 
